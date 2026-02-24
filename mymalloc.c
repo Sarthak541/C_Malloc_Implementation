@@ -7,16 +7,26 @@ static union {
     double not_used;
 } heap;
 
-struct metadata{
+typedef struct{
     size_t metadata_size;
     bool is_free;
-}Metadata;
+} Metadata;
+
+// function to add the initial metadata to the heap
+void initialize_heap(){
+    Metadata * initial_metadata = (Metadata *)heap.bytes;
+
+    // initialize the metadata size, the first metadata is the size of the entire free space available
+    initial_metadata -> metadata_size = MEMLENGTH - sizeof(Metadata);
+    initial_metadata -> is_free = true;
+}
 
 void * mymalloc (size_t size, char *file, int line){
     static bool initialized = false;
     if (!initialized){
         //initialize logic
+        initialize_heap();
         initialized = true;
     }
 };
-void   myfree (void *ptr, char *file, int line);
+void myfree (void *ptr, char *file, int line);
