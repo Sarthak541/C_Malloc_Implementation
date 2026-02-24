@@ -76,5 +76,5 @@ void myfree (void *ptr, char *file, int line){
         
         initialized = true;
     }
-    return NULL;
+
 };
