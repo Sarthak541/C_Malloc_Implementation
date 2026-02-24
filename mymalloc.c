@@ -60,4 +60,15 @@ void * mymalloc (size_t size, char *file, int line){
     }
     return NULL;
 };
-void myfree (void *ptr, char *file, int line);
+void myfree (void *ptr, char *file, int line){
+    if (!initialized){
+        //initialize logic
+        initialize_heap();
+        
+        //set exit handler
+        atexit(check_memory_leak_exit);
+        
+        initialized = true;
+    }
+    return NULL;
+};
