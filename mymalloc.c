@@ -32,18 +32,24 @@ void check_memory_leak_exit(){
 
     //current is a char* uses pointer arithmetic to iterate through the malloc array
     char* current = (char *)heap.bytes;
+
+    size_t total_bytes_leaked = 0;
+    size_t num_objects_leaked = 0;
     while(current< (char *)heap.bytes + MEMLENGTH){
         Metadata* cur_metadata = (Metadata*)current;
         
         //logic if a leak is found
         if ( !cur_metadata->is_free){
-            fprintf(stderr,"memory leaked, %zu bytes used at location %p",cur_metadata->data_size,current+sizeof(Metadata));
+            total_bytes_leaked+=cur_metadata->data_size;
+            num_objects_leaked+=1;
         }
         
         current+=sizeof(Metadata)+cur_metadata->data_size;
     }
-    
-}
+    if(total_bytes_leaked>0){
+        fprintf(stderr,"mymalloc: %zu bytes leaked in %zu objects.",total_bytes_leaked,num_objects_leaked);
+    }
+}   
 
 //malloc logic
 void * mymalloc (size_t size, char *file, int line){
