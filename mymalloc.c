@@ -106,6 +106,9 @@ void myfree (void *ptr, char *file, int line){
     Metadata* cur_metadata = (Metadata*)((char*) ptr - sizeof(Metadata));
     cur_metadata->is_free = true;
 
+    //call coalesce after every free to ensure all memory is accessible
+    coalesce();
+
 };
 
 
