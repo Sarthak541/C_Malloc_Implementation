@@ -47,7 +47,7 @@ void check_memory_leak_exit(){
         current+=sizeof(Metadata)+cur_metadata->data_size;
     }
     if(total_bytes_leaked>0){
-        fprintf(stderr,"mymalloc: %zu bytes leaked in %zu objects.",total_bytes_leaked,num_objects_leaked);
+        fprintf(stderr,"mymalloc: %zu bytes leaked in %zu objects.\n",total_bytes_leaked,num_objects_leaked);
     }
 }   
 
@@ -134,7 +134,7 @@ void myfree (void *ptr, char *file, int line){
         cur_metadata->is_free = true;
     }
     else{
-        fprintf(stderr,"free: Inappropriate pointer (%s:%d)",file,line);
+        fprintf(stderr,"free: Inappropriate pointer (%s:%d)\n",file,line);
         exit(2);
     }
 
