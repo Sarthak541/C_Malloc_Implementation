@@ -116,7 +116,7 @@ main (int argc, char **argv)
 		}
 		//free small chunks
 		for(i = 0; i < OBJECTS; i++){
-			if(ptrs[i] == NULL){
+			if(ptrs[i] != NULL){
 				free(ptrs[i]);
 				ptrs[i] = NULL;
 			}
