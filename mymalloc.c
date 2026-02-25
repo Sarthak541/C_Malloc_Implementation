@@ -65,22 +65,31 @@ void * mymalloc (size_t size, char *file, int line){
     return NULL;
 };
 
-//coalesce logic
-void coalesce(Metadata* cur_metadata){
+void coalesce() {
     char* heap_end = (char*)heap.bytes + MEMLENGTH;
-    //merge as long as next chunk is free
-    while(1){
-        char* next = (char*)cur_metadata + sizeof(Metadata) + cur_metadata->data_size;
-        //stop if you reach the end of heap
-        if(next >= heap_end){
+    char* curleft = (char*)heap.bytes;
+
+    while (curleft < heap_end) {
+        Metadata* left_m = (Metadata*)curleft;
+        
+        // Calculate where the next block SHOULD be
+        char* curright = curleft + sizeof(Metadata) + left_m->data_size;
+
+        // If the right block is outside the heap, we are done
+        if (curright >= heap_end) {
             break;
         }
-        Metadata* next_metadata = (Metadata*)next;
-        //stop if metadata not free
-        if(!next_metadata->is_free){
-        break;
+
+        Metadata* right_m = (Metadata*)curright;
+
+        if (left_m->is_free && right_m->is_free) {
+            // MERGE: Increase size. 
+            // DO NOT move curleft yet! We need to check if the NEXT next block is also free.
+            left_m->data_size += sizeof(Metadata) + right_m->data_size;
+        } else {
+            // No merge possible, move to the next block
+            curleft = curright;
         }
-        cur_metadata->data_size += sizeof(Metadata) + next_metadata->data_size;
     }
 }
 
