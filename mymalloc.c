@@ -108,8 +108,8 @@ bool valid_pointer(void* ptr){
         Metadata* cur_metadata = (Metadata*)current;
         char* payload = current + sizeof(Metadata);
         if(payload == (char*)ptr){
-            //matches payload
-            return true;
+            //matches payload , return true if payload is not free
+            return !cur_metadata->is_free;
         }
         current += sizeof(Metadata) + cur_metadata->data_size;
     }
@@ -129,8 +129,14 @@ void myfree (void *ptr, char *file, int line){
         initialized = true;
     }
     //code to go to the beginning of a metadata instead of the chunk
-    Metadata* cur_metadata = (Metadata*)((char*) ptr - sizeof(Metadata));
-    cur_metadata->is_free = true;
+    if (valid_pointer(ptr)){
+        Metadata* cur_metadata = (Metadata*)((char*) ptr - sizeof(Metadata));
+        cur_metadata->is_free = true;
+    }
+    else{
+        fprintf(stderr,"free: Inappropriate pointer (%s:%d)",file,line);
+        exit(2);
+    }
 
     //call coalesce after every free to ensure all memory is accessible
     coalesce();
