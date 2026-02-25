@@ -8,10 +8,19 @@
 #endif
 
 void task1(){
-    
+        for (size_t i = 0; i < 120 ; i++){
+        char* my_obj = malloc(1);
+        free(my_obj);
+    }
 }
 void task2(){
-
+    char *ptrs[120];
+    for(int i =0; i < 120; i++){
+        ptrs[i] = malloc(1);
+    }
+    for(int i = 0; i < 120; i++){
+        free(ptrs[i]);
+    }
 }
 void task3(){
 
@@ -30,6 +39,6 @@ int main(int argc, char* argv[]){
     task3();
     task4();
     task5();
-
+    
     return EXIT_SUCCESS;
 }
