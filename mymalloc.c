@@ -13,8 +13,9 @@ static union {
 } heap;
 
 typedef struct{
-    size_t data_size;
+    unsigned int data_size;
     bool is_free;
+    char padding[3];
 } Metadata;
 
 // function to add the initial metadata to the heap
