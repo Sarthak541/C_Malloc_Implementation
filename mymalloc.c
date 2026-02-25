@@ -65,6 +65,25 @@ void * mymalloc (size_t size, char *file, int line){
     return NULL;
 };
 
+//coalesce logic
+void coalesce(Metadata* cur_metadata){
+    char* heap_end = (char*)heap.bytes + MEMLENGTH;
+    //merge as long as next chunk is free
+    while(1){
+        char* next = (char*)cur_metadata + sizeof(Metadata) + cur_metadata->data_size;
+        //stop if you reach the end of heap
+        if(next >= heap_end){
+            break;
+        }
+        Metadata* next_metadata = (Metadata*)next;
+        //stop if metadata not free
+        if(!next_metadata->is_free){
+        break;
+        }
+        cur_metadata->data_size += sizeof(Metadata) + next_metadata->data_size;
+    }
+}
+
 //free logic
 void myfree (void *ptr, char *file, int line){
     if (!initialized){
@@ -81,3 +100,5 @@ void myfree (void *ptr, char *file, int line){
     cur_metadata->is_free = true;
 
 };
+
+
