@@ -58,6 +58,48 @@ To remove the third element, first connect the second element to the fourth elem
 temporarily store the third element
 then free the third element
 */
+    //defining linked list node
+    typedef struct Node {
+        int data;
+        struct Node* next;
+    }Node;
+    // creating random linked list under size 10
+    int size = (rand()%9) + 1;
+    //populate 
+    Node* head = malloc(sizeof(Node));
+    head->data = 0;
+    head->next = NULL;
+    Node* current = head;
+    //construct linked list
+    for(int i = 1; i < size; i++){
+        Node* new_node = malloc(sizeof(Node));
+        new_node->data = i;
+        new_node->next = NULL;
+        current->next = new_node;
+        current = new_node;
+    }
+    //remove position 0 separately
+    if(head != NULL){
+        Node* temp = head;
+        head = head->next;
+        free(temp);
+    }
+    //traverse and remove every even position
+    //since we removed position 0, we have to remove the odd ones in the current linked list(position 1 is at position 0)
+    current = head;
+    while(current != NULL && current->next != NULL){
+        Node* temp = current->next;
+        current->next = current->next->next;
+        free(temp);
+        current = current->next;
+    }
+    //free
+    current = head;
+    while(current != NULL){
+        Node* temp = current;
+        current = current->next;
+        free(temp);
+    }
 }
 void task5(){
 /*
