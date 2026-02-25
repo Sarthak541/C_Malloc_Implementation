@@ -72,10 +72,9 @@ void coalesce() {
     while (curleft < heap_end) {
         Metadata* left_m = (Metadata*)curleft;
         
-        // Calculate where the next block SHOULD be
         char* curright = curleft + sizeof(Metadata) + left_m->data_size;
 
-        // If the right block is outside the heap, we are done
+        // If the right block is outside the heap, we end
         if (curright >= heap_end) {
             break;
         }
@@ -83,11 +82,10 @@ void coalesce() {
         Metadata* right_m = (Metadata*)curright;
 
         if (left_m->is_free && right_m->is_free) {
-            // MERGE: Increase size. 
-            // DO NOT move curleft yet! We need to check if the NEXT next block is also free.
+            // Merge logic
             left_m->data_size += sizeof(Metadata) + right_m->data_size;
         } else {
-            // No merge possible, move to the next block
+            // No merge so iterate
             curleft = curright;
         }
     }
