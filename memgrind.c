@@ -26,10 +26,19 @@ void task3(){
 
 }
 void task4(){
-
+/*
+Get rid of every even element in a linked list.
+In order to do this first typedef a struct, then use this struct for the linked list
+To remove the third element, first connect the second element to the fourth element
+temporarily store the third element
+then free the third element
+*/
 }
 void task5(){
-
+/*
+Remove the second largest element in a binary tree. Do this by removing the parent of
+the rightmost child
+*/
 }
 
 int main(int argc, char* argv[]){
