@@ -1,8 +1,6 @@
 
 # Personal implementation of Malloc Project.
 
-## Section 1 - mymalloc.c design + testing myfree()
-
 ### Build Guide
 In order to build this project, you must have gcc installed.  After cloning the repository, type "make" in the terminal
 to compile the executables.  You can run the executables to test the code.  Type "make clean" to remove all executables
@@ -13,6 +11,8 @@ My understanding of malloc is that we are creating a global variable called a HE
 basically an array, and using that to store variable data.  To do this I used metadata that
 tells us the size of the allocated memory and whether or not it is free.  Our metadata acts like
 a linked list because the size of the allocated memory tells us where the next metadata will be.
+
+## Section 1 - mymalloc.c design + testing myfree()
 
 ### myfree()
 To begin, let me explain our process of creating myfree().  We first call a function to check for 
