@@ -3,6 +3,11 @@
 
 ## Section 1 - mymalloc.c design + testing myfree()
 
+### Build Guide
+In order to build this project, you must have gcc installed.  After cloning the repository, type "make" in the terminal
+to compile the executables.  You can run the executables to test the code.  Type "make clean" to remove all executables
+and object files.
+
 ### Intro
 My understanding of malloc is that we are creating a global variable called a HEAP, which is
 basically an array, and using that to store variable data.  To do this I used metadata that
