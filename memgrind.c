@@ -132,18 +132,19 @@ head->right->right->right = NULL;
 BST_Node* cursor = head;
 BST_Node* cursor2 = head->right;
 
-while (cursor2!=NULL){
-    if (cursor2->right==NULL && cursor2->left==NULL){
-        cursor->right = NULL;
-    }
-    else if(cursor2->right==NULL && cursor2->left!=NULL){
-        cursor->right = cursor2->left;
+while (cursor2 != NULL) {
+    if (cursor2->right == NULL) { // We found the largest!
+        if (cursor2->left == NULL) {
+            cursor->right = NULL;
+        } else {
+            cursor->right = cursor2->left;
+        }
         free(cursor2);
-        break;
+        cursor2 = NULL; // EXIT the loop
     }
-    else{
+    else {
+        cursor = cursor2; // Keep cursor one step behind cursor2
         cursor2 = cursor2->right;
-        cursor = cursor->right;
     }
 }
 
