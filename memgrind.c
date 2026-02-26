@@ -115,13 +115,19 @@ Remove the largest element in a binary search tree. Do this by removing the righ
 BST_Node* head = malloc(sizeof(BST_Node));
 head->data = 8;
 head->left = malloc(sizeof(BST_Node));
+head->left->left=NULL;
+head->left->right=NULL;
 head->left->data = 4;
 head->right = malloc(sizeof(BST_Node));
 head->right->data= 12;
 head->right->left = malloc(sizeof(BST_Node));
 head->right->left->data = 10;
+head->right->left->left = NULL;
+head->right->left->right = NULL;
 head->right->right=malloc(sizeof(BST_Node));
 head->right->right->data = 14;
+head->right->right->left = NULL;
+head->right->right->right = NULL;
 
 BST_Node* cursor = head;
 BST_Node* cursor2 = head->right;
