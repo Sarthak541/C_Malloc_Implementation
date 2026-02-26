@@ -1,13 +1,11 @@
-# Systems Programming : Project 1
-## My Little Malloc
 
-The authors of this project are Sarthak Talukdar st1332,  and Yaswanth Gosukonda yg547
+# Personal implementation of Malloc Project.
 
 ## Section 1 - mymalloc.c design + testing myfree()
 
 ### Intro
 My understanding of malloc is that we are creating a global variable called a HEAP, which is
-basically an array, and using that to store variable data.  To do this we have metadata that
+basically an array, and using that to store variable data.  To do this I used metadata that
 tells us the size of the allocated memory and whether or not it is free.  Our metadata acts like
 a linked list because the size of the allocated memory tells us where the next metadata will be.
 
@@ -37,7 +35,7 @@ As mentioned earlier we tested myfree() partially through the 3 test files.  mem
 Basically, the difference is that in memtest(), we test whether or not an error occurs and in the other three files an
 error is guaranteed to occur and there would be something very concerning if it did not occur.  The testing are as follows:
 
-- First we check if malloc reserves any unallocated memory as shown in the writeup
+- First we check if malloc reserves any unallocated memory
 
 - Next we check if free deallocates memory
 We do this by allocating objects until the heap is full, freeing the objects then allocating the objects again
