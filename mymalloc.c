@@ -17,7 +17,7 @@ typedef struct{
 
 // function to add the initial metadata to the heap
 void initialize_heap(){
-    // dom't do anything if initialized
+    // don't do anything if initialized
     if(initialized){
         return;
     }
