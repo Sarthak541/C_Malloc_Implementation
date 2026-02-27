@@ -3,7 +3,6 @@
 #include <stdio.h>
 #define MEMLENGTH 4096
 
-//static initialization variable
 static bool initialized = false;
 
 static union {
