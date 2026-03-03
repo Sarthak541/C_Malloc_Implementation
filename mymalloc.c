@@ -160,7 +160,6 @@ void myfree (void *ptr, char *file, int line){
         exit(2);
     }
 
-    //call coalesce after every free to ensure all memory is accessible
     coalesce();
 
 }
