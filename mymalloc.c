@@ -18,7 +18,7 @@ typedef struct{
 void initialize_heap();
 void check_memory_leak_exit();
 void* mymalloc(size_t size, char* file, int line);
-void coalesce();
+void coalesce(void* ptr);
 bool valid_pointer(void* ptr);
 void myfree (void *ptr, char *file, int line);
 
@@ -88,6 +88,14 @@ void * mymalloc (size_t size, char *file, int line){
                 new_metadata->next_data_size = cur_metadata->next_data_size-size_req-sizeof(Metadata);
                 new_metadata->prev_data_size = size_req;
                 cur_metadata->next_data_size = size_req;
+                
+                //update the post metadata as well
+                char* post_split = new_metadata_spot + sizeof(Metadata) + new_metadata->next_data_size;
+                if (post_split<heap_end){
+                    Metadata* post_metadata = (Metadata *) post_split;
+                    post_metadata->prev_data_size = new_metadata->next_data_size;
+                }
+                
             }
             cur_metadata->next_data_size*=-1;
             
@@ -98,30 +106,58 @@ void * mymalloc (size_t size, char *file, int line){
     return NULL;
 }
 
-void coalesce() {
+void coalesce(void* ptr) {
     char* heap_end = (char*)heap.bytes + MEMLENGTH;
-    char* curleft = (char*)heap.bytes;
-
-    while (curleft < heap_end) {
-        Metadata* left_m = (Metadata*)curleft;
-        
-        char* curright = curleft + sizeof(Metadata) + abs(left_m->next_data_size);
-
-        // If the right block is outside the heap, we end
-        if (curright >= heap_end) {
-            break;
-        }
-
-        Metadata* right_m = (Metadata*)curright;
-
-        if (left_m->next_data_size>0 && right_m->next_data_size>0) {
-            // Merge logic
-            left_m->next_data_size += sizeof(Metadata) + right_m->next_data_size;
-        } else {
-            // No merge so iterate
-            curleft = curright;
+    char* curptr = (char*)ptr;
+    Metadata* cur_metadata = (Metadata *)(curptr-sizeof(Metadata));
+    bool right_free = false;
+    bool left_free = false;
+    Metadata* my_left;
+    Metadata* my_right;
+    
+    if((curptr+cur_metadata->next_data_size) < heap_end){
+        Metadata* right_metadata = (Metadata *)(curptr+cur_metadata->next_data_size);
+        my_right = right_metadata;
+        if (right_metadata->next_data_size>0){
+            right_free = true;
         }
     }
+    if((curptr-cur_metadata->prev_data_size-2*sizeof(Metadata))>=(char*)heap.bytes){
+        Metadata* left_metadata = (Metadata *)(curptr-cur_metadata->prev_data_size-2*sizeof(Metadata));
+        my_left = left_metadata;
+        if (left_metadata->next_data_size>0){
+            left_free = true;
+        }
+    }
+
+    if (right_free && left_free){
+        char* next = (char*) my_right + my_right->next_data_size + sizeof(Metadata);
+        my_left->next_data_size+= 2*sizeof(Metadata) + cur_metadata->next_data_size +my_right->next_data_size;
+        if (next<heap_end){
+            Metadata* next_m = (Metadata*)next;
+            next_m->prev_data_size = my_left->next_data_size;
+        }
+    }
+    else if (right_free && !left_free){
+        char* next = (char*) my_right + my_right->next_data_size + sizeof(Metadata);
+        cur_metadata->next_data_size += sizeof(Metadata) + my_right->next_data_size;
+        if (next<heap_end){
+            Metadata* next_m = (Metadata*)next;
+            next_m->prev_data_size = cur_metadata->next_data_size;
+        }
+
+    }
+    else if(!right_free && left_free){
+        char* next = ((char*)cur_metadata)+cur_metadata->next_data_size+sizeof(Metadata);
+        my_left->next_data_size += sizeof(Metadata) + cur_metadata->next_data_size;
+
+        if( next < heap_end){
+            Metadata* next_metadata = (Metadata*) next;
+            next_metadata->prev_data_size = my_left->next_data_size;
+        }
+    
+    }
+
 }
 
 //valid_pointer checks if agiven pointer is a valid payload pointer
@@ -163,7 +199,7 @@ void myfree (void *ptr, char *file, int line){
         exit(2);
     }
 
-    coalesce();
+    coalesce(ptr);
 
 }
 
