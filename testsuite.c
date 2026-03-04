@@ -318,12 +318,6 @@ void memtest(){
 			free(large);
 		}
 	}
-
-}
-
-int main() {
-	memgrind();
-	memtest();
 	
 	// Requirement Tested: leaked objects detected 
 	if (LEAK){
@@ -331,6 +325,13 @@ int main() {
 		printf("LEAK mode enabled: objects from original test were not freed\n");
 		printf("Check stderr at program exit for the leak detector message.\n");
 	}
+
+}
+
+int main() {
+	memgrind();
+	memtest();
+	
 
 	return EXIT_SUCCESS;
 }
