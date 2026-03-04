@@ -100,6 +100,6 @@ mymalloc.h is added for all the compilations because it contains the function pr
 - Implement a new unsafe free function (ufree()) that does not check if a pointer is valid before doing free
 - Implement the O(1) coalesce and free using doubly linked lists - COMPLETED
 - Improve ReadMe.md by moving the concept explanation to the wiki
-- Change the makefile to make an extra -DREALMALLOC and -DLEAK for the test file
+- Change the makefile to make an extra -DREALMALLOC and -DLEAK for the test file -COMPLETED
 - Separate testsuite.c into 3 functions.  Test that check whether a function works, tests that check if an error is triggered, test memgrind.c for intensive workload testing
 - Improve the binary tree task into a more creative task in memgrind.c
