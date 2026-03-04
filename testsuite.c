@@ -20,6 +20,7 @@
 #define OBJSIZE (MEMSIZE / OBJECTS - HEADERSIZE)
 
 void memgrind();
+void memtest();
 void task1();
 void task2();
 void task3();
@@ -319,6 +320,7 @@ void memtest(){
 	}
 
 }
+
 int main() {
 	memgrind();
 	memtest();
