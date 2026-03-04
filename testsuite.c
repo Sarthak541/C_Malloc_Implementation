@@ -207,7 +207,7 @@ void memgrind(){
 
 }
 
-void memtest(){
+void memtest(void (*freefunc)(void*)){
 	char *obj[OBJECTS];
 	int i, j, errors = 0;
 	
@@ -238,7 +238,7 @@ void memtest(){
 	// free all objects
 	if (!LEAK) {
 	    for (i = 0; i < OBJECTS; i++) {
-		free (obj[i]);
+		freefunc (obj[i]);
 	    }
 	}
 	
@@ -262,7 +262,7 @@ void memtest(){
 		//Free
 		for(i = 0; i < OBJECTS; i++){
 			if(ptrs[i] != NULL) {
-				free(ptrs[i]);
+				freefunc(ptrs[i]);
 				ptrs[i] = NULL;
 			}
 		}
@@ -276,7 +276,7 @@ void memtest(){
 		}
 		for(i = 0; i < OBJECTS; i++){
 			if(ptrs[i] != NULL) {
-				free(ptrs[i]);
+				freefunc(ptrs[i]);
 			}
 		}
 		if(alloc_errors == 0){
@@ -303,7 +303,7 @@ void memtest(){
 		//free small chunks
 		for(i = 0; i < OBJECTS; i++){
 			if(ptrs[i] != NULL){
-				free(ptrs[i]);
+				freefunc(ptrs[i]);
 				ptrs[i] = NULL;
 			}
 		}
@@ -315,7 +315,7 @@ void memtest(){
 		}
 		else{
 			printf("Coalesce test passed: large allocation succeeded after freeing small chunks\n");
-			free(large);
+			freefunc(large);
 		}
 	}
 	
@@ -328,10 +328,22 @@ void memtest(){
 
 }
 
+void free_wrapper(void* ptr){
+	free(ptr);
+}
+#ifndef REALMALLOC
+void ufree_wrapper(void* ptr){
+	ufree(ptr);
+}
+#endif
 int main() {
 	memgrind();
-	memtest();
-	
-
+	//Bypass macros with the wrapper
+	memtest(free_wrapper);
+#ifndef REALMALLOC
+	memtest(ufree_wrapper);
+#else
+	printf("Skipping unsafe free\n");
+#endif
 	return EXIT_SUCCESS;
 }
