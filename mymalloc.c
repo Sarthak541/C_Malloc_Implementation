@@ -44,7 +44,7 @@ void initialize_heap(){
 
 //exit logic
 void check_memory_leak_exit(){
-    printf("Checking memory leak\n");
+    printf("\n Checking memory leak\n");
 
     //current is a char* uses pointer arithmetic to iterate through the malloc array
     char* current = (char *)heap.bytes;

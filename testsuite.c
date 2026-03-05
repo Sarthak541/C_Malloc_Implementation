@@ -203,6 +203,7 @@ void memgrind(){
    //think of this as a mixed fraction --> whole number
    elapsed = (end.tv_sec - start.tv_sec) * 1000000 + (end.tv_usec - start.tv_usec);
    //divides 50 because we want average
+   printf("\n Test: Intensive workload (memgrind)\n");
    printf("Workload average: %ld microseconds\n", elapsed / 50);
 
 }
