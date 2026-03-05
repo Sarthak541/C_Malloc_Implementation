@@ -355,6 +355,8 @@ void ufree_wrapper(void* ptr){
 
 void error_test(){
 
+	#ifndef REALMALLOC
+
 	// malloc rejects too large allocations
 	printf("\n Test: allocate an object that is too big\n");
 	int* my_array = (int*)malloc(sizeof(int)*MEMSIZE*2);
@@ -362,7 +364,6 @@ void error_test(){
 		fprintf(stderr,"Malloc unable to allocate size too large\n");
 	}
 
-#ifndef REALMALLOC
 	printf("\n Test: double free\n");
 	int* my_val = (int*)malloc(sizeof(int)*3);
 	free(my_val);
@@ -378,7 +379,8 @@ void error_test(){
 	static int x[128];
 	int*y = &x[5];
 	free(y);
-#endif
+	
+	#endif
 
 
 
@@ -388,11 +390,16 @@ int main() {
 
 	//wrappers are used to bypass the macro
 	memtest(free_wrapper);
-#ifndef REALMALLOC
+
+	#ifndef REALMALLOC
+	
 	memtest(ufree_wrapper);
-#else
+
+	#else
+
 	printf("Skipping unsafe free\n");
-#endif
+
+	#endif
 
 	error_test();
 
