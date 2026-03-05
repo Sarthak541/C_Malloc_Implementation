@@ -331,19 +331,23 @@ void memtest(void (*freefunc)(void*)){
 void free_wrapper(void* ptr){
 	free(ptr);
 }
+
 #ifndef REALMALLOC
 void ufree_wrapper(void* ptr){
 	ufree(ptr);
 }
 #endif
+
 int main() {
-	memgrind();
-	//Bypass macros with the wrapper
+
 	memtest(free_wrapper);
 #ifndef REALMALLOC
 	memtest(ufree_wrapper);
 #else
 	printf("Skipping unsafe free\n");
 #endif
+
+	memgrind();
+	//Bypass macros with the wrapper
 	return EXIT_SUCCESS;
 }
