@@ -1,6 +1,9 @@
 
 # Malloc Implementation in C
 
+## Introduction
+
+malloc() is a function in c that allows the user to dynamically allocate memory at runtime rather than set aside memory at compile time.  Alongside malloc(), the free() function is used to deallocate memory which had previously been allocated by malloc().  This project contains mymalloc.c, a library that implements malloc() and free(), alongside a rigorous test suite for the functions in the library.  This README.md acts as a documentation for this project that will delve into the build details, and a thorough explanation of the implementation of this project.  
 malloc() is a widely used function to use dynamically allocated memory in C. Alongside 
 malloc(), the free() function is used to deallocate memory.  This project provides an 
 implementation of malloc() in C alongside a rigorous suite of tests and a read me containing detailed information about the project.
