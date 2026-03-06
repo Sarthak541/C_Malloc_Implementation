@@ -6,9 +6,27 @@
 The malloc() function in C allows the user to dynamically allocate memory at runtime rather than setting aside static memory at compile time.  Alongside malloc(), the free() function is used to deallocate memory which had previously been allocated by malloc().  This project contains [mymalloc.c](mymalloc.c), a library that implements malloc() and free(), alongside a rigorous test suite for the functions in the library.  This [README.md](README.md) acts as a documentation for this project that will delve into the build details and a thorough explanation of the code in this project.  
 
 
-### Build Guide
-In order to build this project, you must have gcc installed.  After cloning the repository, type "make" in the terminal
-to compile the executables.  You can run the executables to test the code.  Type "make clean" to remove all executables
+## Build Guide
+
+### Dependencies
+- GCC version 9.0+
+- C99
+- C standard library
+- Linux operating system
+
+### Building and Running
+
+In order to build and run this project, here are the required steps-
+
+```bash
+git clone https://github.com/Sarthak541/C_Malloc_Implementation
+make
+./realmalloc
+./leaker
+./testsuite
+```
+
+After cloning the repository, type "make" in the terminal to compile the executables.  You can run the executables to test the code.  Type "make clean" to remove all executables
 and object files.
 
 ### Understanding malloc
