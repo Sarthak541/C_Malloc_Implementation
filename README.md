@@ -36,7 +36,7 @@ As mentioned previously, malloc() is a function used to dynamically allocate mem
 
 ### Section 1 part 1 - Heap
 
-Memory allocated using malloc() belongs to a region of memory known as the **heap**.  In our implementation, the heap is a union of a very large array of chars and a double variable titled "not used".  As the name implies, the "not used" variable is never once used in our codebase, and the union's only purpose is to allign the heap to 8 bytes of memory and enable the use of pointer arithmetic.  Additionally, the heap is specifically an array of chars as opposed to any other type of array because a char is the smallest unit of memory in C, meaning that it also allows us to easily use pointer arithmetic on the memory addresses in the array. 
+Memory allocated using malloc() belongs to a region of memory known as the **heap**.  In our implementation, the heap is a union of a very large array of chars and a double variable titled "not used".  As the name implies, the "not used" variable is never once used in our codebase, and the union's only purpose is to allign the heap to 8 bytes of memory and enable the use of pointer arithmetic.  Additionally, the heap is specifically an array of chars as opposed to any other type of array because a char is the smallest unit of memory in C, meaning that we are able to easily use pointer arithmetic on the memory addresses within the heap. 
 
 ### myfree()
 To begin, let me explain our process of creating myfree().  We first call a function to check for 
